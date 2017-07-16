@@ -44,6 +44,11 @@ module.exports = {
 		callback(err, user);
 	},
 
+	findInstantOne: (id) => {
+		const {user} = findUser(id);
+		return user
+	},
+
 	addUser: (user, callback) => {
 		if (typeof user.id !== 'undefined'){
 			users.push(user);

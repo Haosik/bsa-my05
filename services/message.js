@@ -51,10 +51,10 @@ module.exports = {
 		const userContacted = [];
 
 		messages.forEach((msg, ind) => {
-			if (msg.receiverId === Number(id) && !userContacted.includes(msg.senderId)) {
-				userContacted.push(msg.senderId);
-			} else if (msg.senderId === Number(id) && !userContacted.includes(msg.receiverId)) {
-				userContacted.push(msg.receiverId);
+			if (msg.receiverId === Number(id) && !userContacted.includes(users.findInstantOne(msg.senderId))) {
+				userContacted.push(users.findInstantOne(msg.senderId));
+			} else if (msg.senderId === Number(id) && !userContacted.includes(users.findInstantOne(msg.receiverId))) {
+				userContacted.push(users.findInstantOne(msg.receiverId));
 			}
 		});
 		
