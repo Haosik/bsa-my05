@@ -44,7 +44,7 @@ module.exports = {
 		callback(err, user);
 	},
 
-	findInstantOne: (id) => {
+	findInstantUser: (id) => {
 		const {user} = findUser(id);
 		return user
 	},

@@ -40,7 +40,7 @@ const messages = [{
 	body: 'What a jerk...'
 }];
 
-const users = require('./user');
+const {findInstantUser} = require('./user');
 
 module.exports = {
 	findAllMessages: (callback) => {
@@ -51,10 +51,10 @@ module.exports = {
 		const userContacted = [];
 
 		messages.forEach((msg, ind) => {
-			if (msg.receiverId === Number(id) && !userContacted.includes(users.findInstantOne(msg.senderId))) {
-				userContacted.push(users.findInstantOne(msg.senderId));
-			} else if (msg.senderId === Number(id) && !userContacted.includes(users.findInstantOne(msg.receiverId))) {
-				userContacted.push(users.findInstantOne(msg.receiverId));
+			if (msg.receiverId === Number(id) && !userContacted.includes(findInstantUser(msg.senderId))) {
+				userContacted.push(findInstantUser(msg.senderId));
+			} else if (msg.senderId === Number(id) && !userContacted.includes(findInstantUser(msg.receiverId))) {
+				userContacted.push(findInstantUser(msg.receiverId));
 			}
 		});
 		
