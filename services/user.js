@@ -16,17 +16,35 @@ const users = [{
 	email: 'pavel@gmail.com'
 }];
 
+function findUser(id){
+	const err = null;
+	if (typeof id === 'undefined'){
+		err = new Error('id is undefined');
+	}
+
+	let index;
+	const user = users.find((el, ind) => {
+		if (el.id === id){
+			index = ind;
+			return true;
+		} else {
+			return false;
+		}
+	});
+	return {user, index, err};
+}
+
 module.exports = {
-	findAll: (callback) => {
+	findUsers: (callback) => {
 		callback(null, users);
 	},
 
-	findOne: (id, callback) => {
+	findOneUser: (id, callback) => {
 		const {err, user} = findUser(id);
 		callback(err, user);
 	},
 
-	add: (user, callback) => {
+	addUser: (user, callback) => {
 		if (typeof user.id !== 'undefined'){
 			users.push(user);
 			callback(null);
@@ -35,19 +53,19 @@ module.exports = {
 		}
 	},
 
-	findOneAndDelete: (id, callback) => {
+	findOneUserAndUpdate: (id, user, callback) => {
+		const {err, index} = findUser(id);
+		users[index] = Object.assign(users[index], user);
+		callback(err);
+	},
+
+	findOneUserAndDelete: (id, callback) => {
 		let {err, user, index} = findUser(id);
 		if (typeof index !== 'undefined'){
 			users.splice(index, 1);
 		} else {
 			err = new Error('User with such ID not found');
 		}
-		callback(err);
-	},
-
-	findOneAndUpdate: (id, user, callback) => {
-		const {err, index} = findUser(id);
-		users[index] = Object.assign(users[index], user);
 		callback(err);
 	}
 };

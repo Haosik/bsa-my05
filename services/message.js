@@ -40,6 +40,8 @@ const messages = [{
 	body: 'What a jerk...'
 }];
 
+const users = require('./user');
+
 module.exports = {
 	findAllMessages: (callback) => {
 		callback(null, messages);
@@ -47,14 +49,29 @@ module.exports = {
 
 	getUserContacts: (id, callback) => {
 		const userContacted = [];
-		const user = user.users.id;
 
-		userContacts = message.forEach((msg, ind) => {
-			if (msg.receiverId === id || msg.receiverId === id) {
-				userContacts.push(msg);
+		const user = users.findOneUser(id);
+
+		userContacts = messages.forEach((msg, ind) => {
+			if (msg.receiverId === id) {
+				userContacts.push(msg.senderId);
+			} else if (msg.senderId === id) {
+				userContacts.push(msg.receiverId);
 			}
 		});
+		callback(userContacted);
+	},
 
-		return userContacted;
-	}
+
+	addMessage: (message, callback) => {
+		if (typeof message.receiverId !== 'undefined' &&
+			typeof message.senderId !== 'undefined' &&
+			message.body) {
+			messages.push(message);
+			callback(message);
+		} else {
+			callback(new Error('Can not create a message without Sender or Receiver'));
+		}
+	},
+
 };
