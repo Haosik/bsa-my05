@@ -50,16 +50,15 @@ module.exports = {
 	getUserContacts: (id, callback) => {
 		const userContacted = [];
 
-		const user = users.findOneUser(id);
-
-		userContacts = messages.forEach((msg, ind) => {
-			if (msg.receiverId === id) {
-				userContacts.push(msg.senderId);
-			} else if (msg.senderId === id) {
-				userContacts.push(msg.receiverId);
+		messages.forEach((msg, ind) => {
+			if (msg.receiverId === Number(id) && !userContacted.includes(msg.senderId)) {
+				userContacted.push(msg.senderId);
+			} else if (msg.senderId === Number(id) && !userContacted.includes(msg.receiverId)) {
+				userContacted.push(msg.receiverId);
 			}
 		});
-		callback(userContacted);
+		
+		callback(null, userContacted);
 	},
 
 

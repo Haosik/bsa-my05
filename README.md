@@ -11,4 +11,4 @@
 
 **/message** - Get list of all messages  
 **POST /message** - (json) (receiverId, senderId, body) Create new message with receiverId, senderId and body of the message
-**/message/id** - (number) Get list of user's contacts by id
+**/message/id** - (number) Get list of user's contacts by id (Everyone who contacted him, or he had contact with)

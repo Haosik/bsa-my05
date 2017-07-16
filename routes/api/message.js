@@ -14,7 +14,6 @@ router.get('/', (req, res, next) => {
 }); 
 
 router.get('/:id', (req, res, next) => {
-	console.log(req.params.id);
 	messageService.getUserContacts(req.params.id, (err, data) => {
 		if (!err) {
 			res.send(data);
