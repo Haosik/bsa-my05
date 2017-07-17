@@ -50,47 +50,60 @@ const messages = [{
 	body: 'What a jerk...'
 }];
 
-function findMessage(id){
+function findMessage(id) {
 	const err = null;
-	if (typeof id === 'undefined'){
+	if (typeof id === 'undefined') {
 		err = new Error('id is undefined');
 	}
 
 	let index;
 	const message = messages.find((el, ind) => {
-		if (el.id === id){
+		if (el.id === id) {
 			index = ind;
 			return true;
 		} else {
 			return false;
 		}
 	});
-	return {message, index, err};
+	return {
+		message,
+		index,
+		err
+	};
 }
 
-function findMessage(id){
+function findMessage(id) {
 	const err = null;
-	if (typeof id === 'undefined'){
+	if (typeof id === 'undefined') {
 		err = new Error('id is undefined');
 	}
 
 	let index;
 	const message = messages.find((el, ind) => {
-		if (el.id === id){
+		if (el.id === id) {
 			index = ind;
 			return true;
 		} else {
 			return false;
 		}
 	});
-	return {message, index, err};
+	return {
+		message,
+		index,
+		err
+	};
 }
 
-const {findInstantUser} = require('./user');
+const {
+	findInstantUser
+} = require('./user');
 
 module.exports = {
 	findOneMessage: (id, callback) => {
-		const {err, message} = findMessage(id);
+		const {
+			err,
+			message
+		} = findMessage(id);
 		callback(err, message);
 	},
 
@@ -114,41 +127,49 @@ module.exports = {
 				userContacted.push(findInstantUser(msg.receiverId));
 			}
 		});
-		userContacted = userContacted.filter(function(userId, i, self){
+		userContacted = userContacted.filter(function (userId, i, self) {
 			return self.indexOf(userId) === i;
 		});
-		
+
 		if (userContacted.length == 0) {
 			let err = new Error('No contacts of this id found');
 			err.status = 400;
 			callback(err);
 			return
 		}
-		
+
 		callback(null, userContacted);
 	},
 
 
 	addMessage: (message, callback) => {
-		if (typeof message.receiverId !== 'undefined' &&
-			typeof message.senderId !== 'undefined' &&
-			message.body) {
-			messages.push(message);
-			callback(message);
-		} else {
-			callback(new Error('Can not create a message without Sender or Receiver'));
+		if (typeof message.receiverId !== 'number' ||
+			typeof message.senderId !== 'number' ||
+			!message.body) {
+			callback(new Error('Wrong info for creating a message'));
+			return
 		}
+		// Pretending id fieldof message in DB will be auto_increment
+		messages.push(message);
+		callback(message);
 	},
 
 	findMessageAndUpdate: (id, message, callback) => {
-		const {err, index} = findMessage(id);
+		const {
+			err,
+			index
+		} = findMessage(id);
 		messages[index] = Object.assign(messages[index], message);
 		callback(err);
 	},
 
 	findMessageAndDelete: (id, callback) => {
-		let {err, message, index} = findMessage(id);
-		if (typeof index !== 'undefined'){
+		let {
+			err,
+			message,
+			index
+		} = findMessage(id);
+		if (typeof index !== 'undefined') {
 			messages.splice(index, 1);
 		} else {
 			err = new Error('User with such ID not found');
