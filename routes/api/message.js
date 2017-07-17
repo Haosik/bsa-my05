@@ -39,5 +39,27 @@ router.post('/', (req, res, next) => {
 });
 
 
+router.put('/:id', (req, res, next) => {
+	const obj = req.body;
+	messageService.findMessageAndUpdate(Number(req.params.id), obj, (err, data) => {
+		if (!err){
+			res.json(res.data);
+		} else {
+			res.status(400);
+			res.end();
+		}
+	});
+});
+
+router.delete('/:id', (req, res, next) => {
+	messageService.findMessageAndDelete(Number(req.params.id), (err, data) => {
+		if (!err){
+			res.json(res.data);
+		} else {
+			res.status(400);
+			res.end();
+		}
+	});
+});
 
 module.exports = router;
