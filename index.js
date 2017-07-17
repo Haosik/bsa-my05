@@ -9,10 +9,15 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.get('/', function (req, res) {
-	console.log(`Server started! go to localhost:${port}`)
-	res.send('Hello World')
+	console.log(`Server started! go to localhost:${port}`);
+	res.send('Hello World');
 });
 
 const routes = require('./routes/api/routes')(app);
+
+app.use((err, req, res, next) => {
+	res.status(err.status || 500);
+	res.send(err.message);
+});
 
 app.listen(port);

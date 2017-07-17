@@ -89,20 +89,41 @@ function findMessage(id){
 const {findInstantUser} = require('./user');
 
 module.exports = {
+	findOneMessage: (id, callback) => {
+		const {err, message} = findMessage(id);
+		callback(err, message);
+	},
+
 	findAllMessages: (callback) => {
 		callback(null, messages);
 	},
 
 	getUserContacts: (id, callback) => {
-		const userContacted = [];
+		if (isNaN(Number(id))) {
+			let err = new Error('Wrong id');
+			err.status = 400;
+			callback(err);
+			return
+		}
+		let userContacted = [];
 
 		messages.forEach((msg, ind) => {
-			if (msg.receiverId === Number(id) && !userContacted.includes(findInstantUser(msg.senderId))) {
+			if (msg.receiverId === Number(id)) {
 				userContacted.push(findInstantUser(msg.senderId));
-			} else if (msg.senderId === Number(id) && !userContacted.includes(findInstantUser(msg.receiverId))) {
+			} else if (msg.senderId === Number(id)) {
 				userContacted.push(findInstantUser(msg.receiverId));
 			}
 		});
+		userContacted = userContacted.filter(function(userId, i, self){
+			return self.indexOf(userId) === i;
+		});
+		
+		if (userContacted.length == 0) {
+			let err = new Error('No contacts of this id found');
+			err.status = 400;
+			callback(err);
+			return
+		}
 		
 		callback(null, userContacted);
 	},

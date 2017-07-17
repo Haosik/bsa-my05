@@ -8,15 +8,15 @@ router.get('/', (req, res, next) => {
 			res.json(res.data);
 		} else {
 			res.status(400);
-			res.end();
+			next(err);
 		}
 	});
 }); 
 
 router.get('/:id', (req, res, next) => {
-	messageService.getUserContacts(req.params.id, (err, data) => {
-		if (!err) {
-			res.send(data);
+	messageService.findOneMessage(Number(req.params.id), (err, data) => {
+		if (!err){
+			res.data = data;
 			res.json(res.data);
 		} else {
 			res.status(400);
@@ -33,7 +33,7 @@ router.post('/', (req, res, next) => {
 			res.end();
 		} else {
 			res.status(400);
-			res.end();
+			next(err);
 		}
 	});
 });
@@ -46,7 +46,7 @@ router.put('/:id', (req, res, next) => {
 			res.json(res.data);
 		} else {
 			res.status(400);
-			res.end();
+			next(err);
 		}
 	});
 });
@@ -57,7 +57,7 @@ router.delete('/:id', (req, res, next) => {
 			res.json(res.data);
 		} else {
 			res.status(400);
-			res.end();
+			next(err);
 		}
 	});
 });

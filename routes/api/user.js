@@ -9,7 +9,7 @@ router.get('/', (req, res, next) => {
 			res.json(res.data);
 		} else {
 			res.status(400);
-			res.end();
+			next(err);
 		}
 	});
 });
@@ -21,7 +21,7 @@ router.get('/:id', (req, res, next) => {
 			res.json(res.data);
 		} else {
 			res.status(400);
-			res.end();
+			next(err);
 		}
 	});
 });
@@ -40,7 +40,7 @@ router.put('/:id', (req, res, next) => {
 			res.json(res.data);
 		} else {
 			res.status(400);
-			res.end();
+			next(err);
 		}
 	});
 });
@@ -51,7 +51,7 @@ router.delete('/:id', (req, res, next) => {
 			res.json(res.data);
 		} else {
 			res.status(400);
-			res.end();
+			next(err);
 		}
 	});
 });
