@@ -10,5 +10,7 @@
 **DELETE /user/id** - (number) Delete a  user by id  
 
 **/message** - Get list of all messages  
-**POST /message** - (json) (receiverId, senderId, body) Create new message with receiverId, senderId and body of the message
-**/message/id** - (number) Get list of user's contacts by id (Everyone who contacted him, or he had contact with)
+**POST /message** - (json) (receiverId, senderId, body) Create new message with receiverId, senderId and body of the message  
+**PUT /message/:id** - (json) (receiverId, senderId, body) Change message with putted id  
+**/message/id** - (number) Get list of user's contacts by id (Everyone who contacted him, or he had contact with)  
+**DELETE /message/:id** - (number)  Delete a message by it's id  
